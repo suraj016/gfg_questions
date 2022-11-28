@@ -1,0 +1,140 @@
+Rearrange array such that arr[i] >= arr[j] if i is even and arr[i]<=arr[j] if i is odd and j < i
+Difficulty Level : 
+Last Updated : 14 Nov, 2022
+
+Given an array of n elements. Our task is to write a program to rearrange the array such that elements at even positions are greater than all elements before it and elements at odd positions are less than all elements before it.
+Examples: 
+ 
+
+Input : arr[] = {1, 2, 3, 4, 5, 6, 7}
+Output : 4 5 3 6 2 7 1
+
+Input : arr[] = {1, 2, 1, 4, 5, 6, 8, 8} 
+Output : 4 5 2 6 1 8 1 8
+
+             //      SOLUTIONS
+
+
+The idea to solve this problem is to first create an additional copy of the original array and sort the copied array. Now the total number of even positions in an array with n elements will be floor(n/2) and the remaining is the number of odd positions. Now fill the odd and even positions in the original array using the sorted array in a below manner: 
+ 
+
+Total odd positions will be n – floor(n/2). Start from (n-floor(n/2))th position in the sorted array and copy the element to the 1st position of the sorted array. Start traversing the sorted array from this position towards the left and keep filling the odd positions in the original array towards the right.
+Start traversing the sorted array starting from (n-floor(n/2)+1)th position towards the right and keep filling the original array starting from the 2nd position. 
+
+
+code 
+
+
+// Java program to rearrange the array
+// as per the given condition
+import java.util.*;
+import java.lang.*;
+
+public class GfG{
+	// function to rearrange the array
+	public static void rearrangeArr(int arr[],
+										int n)
+	{
+		// total even positions
+		int evenPos = n / 2;
+
+		// total odd positions
+		int oddPos = n - evenPos;
+
+		int[] tempArr = new int [n];
+
+		// copy original array in an
+		// auxiliary array
+		for (int i = 0; i < n; i++)
+			tempArr[i] = arr[i];
+
+		// sort the auxiliary array
+		Arrays.sort(tempArr);
+
+		int j = oddPos - 1;
+
+		// fill up odd position in
+		// original array
+		for (int i = 0; i < n; i += 2) {
+			arr[i] = tempArr[j];
+			j--;
+		}
+
+		j = oddPos;
+
+		// fill up even positions in
+		// original array
+		for (int i = 1; i < n; i += 2) {
+			arr[i] = tempArr[j];
+			j++;
+		}
+
+		// display array
+		for (int i = 0; i < n; i++)
+			System.out.print(arr[i] + " ");
+	}
+	
+	// Driver function
+	public static void main(String argc[]){
+		int[] arr = new int []{ 1, 2, 3, 4, 5,
+										6, 7 };
+		int size = 7;
+		rearrangeArr(arr, size);
+		
+	}
+}
+
+/* This code is contributed by Sagar Shukla */
+
+
+Time Complexity: O( n logn ) 
+Auxiliary Space: O(n)
+
+Another Approach-
+
+We can traverse the array by defining two variables p and q and assign values from last.
+
+if even index is there, we will give it max value otherwise min value.
+
+p =0 and q= end;
+
+p will go ahead and q will decrease.
+
+
+import java.util.*;
+
+class GFG{
+
+public static void main(String[] args)
+{
+	int n, i, j, p, q;
+	int a[] = {1, 2, 1, 4, 5, 6, 8, 8};
+	n = a.length;
+	int []b = new int[n];
+	for(i = 0; i < n; i++)
+	b[i] = a[i];
+
+	Arrays.sort(b);
+	p = 0; q = n - 1;
+	for(i = n - 1; i >= 0; i--)
+	{
+	if(i % 2 != 0)
+	{
+		a[i] = b[q];
+		q--;
+	}
+	else{
+		a[i] = b[p];
+		p++;
+	}
+	}
+	for(i = 0; i < n; i++)
+	{
+	System.out.print(a[i]+" ");
+	}
+}
+}
+
+// This code is contributed by gauravrajput1
+
+ 
